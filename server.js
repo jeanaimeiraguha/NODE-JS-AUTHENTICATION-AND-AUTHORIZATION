@@ -4,7 +4,8 @@ import cors from 'cors';
 
 const app = express();
 // const PORT = process.env.PORT || 3000;
-require("dotenv").config;
+// require("dotenv").config;
+import { configDotenv } from 'dotenv';
 const db = mysql.createConnection({
 
     hos:process.env.DB_HOST,
@@ -16,5 +17,8 @@ db.connect((err)=>{
     if(err){
         console.error("Connection failed")
         return;
+    }
+    else{
+    console.log("Connection succed")
     }
 })
