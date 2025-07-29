@@ -38,7 +38,7 @@ app.get('/dashboard', authenticateJWT, (req, res) => {
     res.send('Welcome to your dashboard!');
 });
 
-// . Creating Authentication Middleware
+// Creating Authentication Middleware
 
 const jwt = require('jsonwebtoken');
 const authenticateJWT = (req, res, next) => {
@@ -70,4 +70,4 @@ app.post('/login', (req, res) => {
     const token = jwt.sign({ username: req.body.username }, 'secretkey',
         { expiresIn: '1h' });
     res.json({ token });
-});
+})

@@ -16,7 +16,6 @@ return encrypted;
 const buffer = Buffer.from('Hello, World!', 'utf-8');
 
 // . Encrypt the Data
-
 const encryptedData = encrypt(buffer.toString());
 console.log('Encrypted Data:', encryptedData);
 
