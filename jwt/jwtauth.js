@@ -38,3 +38,37 @@ res.sendStatus(401);
 app.get('/dashboard', authenticateJWT, (req, res) => {
 res.send('Welcome to your dashboard!');
 });
+
+// . Creating Authentication Middleware
+
+const jwt = require('jsonwebtoken');
+const authenticateJWT = (req, res, next) => {
+const token = req.header('Authorization')?.split(' ')[1];
+if (token) {
+jwt.verify(token, 'secretkey', (err, user) => {
+if (err) return res.sendStatus(403);
+req.user = user;
+
+next();
+});
+} else {
+res.sendStatus(401); // Unauthorized
+}
+};
+
+// 2. Using the Middleware to Protect Routes:
+
+// Apply the authenticateJWT middleware to routes that should be protected:
+app.get('/dashboard', authenticateJWT, (req, res) => {
+res.send('Welcome to the protected dashboard!');
+});
+app.get('/profile', authenticateJWT, (req, res) => {
+res.json({ user: req.user, message: 'This is your protected profile page.' });
+});
+// Public routes, like login or registration, do not need this middleware:
+app.post('/login', (req, res) => {
+// Login logic and token generation
+const token = jwt.sign({ username: req.body.username }, 'secretkey',
+{ expiresIn: '1h' });
+res.json({ token });
+});
